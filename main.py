@@ -1,9 +1,11 @@
 import time
 import random
-
 from bs4 import BeautifulSoup
-import urllib.request
 import requests
+from datetime import datetime
+
+today = datetime.today().strftime('%Y-%m-%d')
+
 
 stock_url = {}
 stock_info = {}
@@ -21,9 +23,7 @@ with open("all_usa_stock_list.html", encoding="UTF8") as fp:
             stock_url[a['title']] = a['href']
             stock_info[a['title'].lower()] = [span_tag['data-name']]
 
-cnt = 0
 for k, v in stock_url.items():
-
 
     # Setting User-Agent for crawling
     headers ={'accept':"text/html",
@@ -41,24 +41,41 @@ for k, v in stock_url.items():
 
 
     company_name_with_ticker = soup.findAll('div',class_='instrumentHead')[0].find('h1').text
-    print(company_name_with_ticker)
+    price = soup.findAll('div',class_='left current-data')[0].find('span',id='last_last')
+    industry_sector = soup.findAll('div',class_='companyProfileHeader')[0].findAll('div')
+
+    industry = industry_sector[0].find('a').text
+
+    sector = industry_sector[1].find('a').text
 
 
     company_name = company_name_with_ticker[:company_name_with_ticker.index('(')-1]
     ticker = company_name_with_ticker[company_name_with_ticker.index('(')+1:company_name_with_ticker.index(')')]
 
-    print(company_name)
-    print(ticker)
 
-    # ticker input
+    # Input ticker
     stock_info[company_name.lower()].append(ticker)
+
+    #Input industry
+    stock_info[company_name.lower()].append('industry')
+    stock_info[company_name.lower()].append(industry)
+
+    # Input Sector
+    stock_info[company_name.lower()].append('sector')
+    stock_info[company_name.lower()].append(sector)
+
+    # Input price
+    stock_info[company_name.lower()].append('price')
+    stock_info[company_name.lower()].append(price.text)
+
+
 
     # get All div tag
     div_tag = soup.findAll('div',class_='clear overviewDataTable overviewDataTableWithTooltip')[0]
 
     span_tag = div_tag.findAll('span')
 
-    # get stock information
+    # Input all data got above to dict
     for i,s in enumerate(span_tag):
         info = s.text
 
@@ -68,11 +85,11 @@ for k, v in stock_url.items():
     time.sleep(sec)
     print(stock_info[company_name.lower()])
 
-    cnt +=1
-    if cnt == 2:
-        break
-    # company_nm , company_ticker, info_cd , info_value
-f = open('data.csv','w')
+
+
+# write csv
+path = today +'_usa_stock_price.csv'
+f = open(path,'w')
 for k,v in stock_info.items():
     company_nm_ticker = v[0] +'|' +v[1]
 
