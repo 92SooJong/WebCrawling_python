@@ -1,3 +1,4 @@
+YYYYMMDD,Ticker,INFO_CD,COMPANY_NM,INFO_VALUE
 20200817,DDD,industry,3D Systems Corporation,Computer Peripherals
 20200817,DDD,sector,3D Systems Corporation,Technology
 20200817,DDD,price,3D Systems Corporation,5.96
@@ -10904,7 +10905,7 @@
 20200817,TV,P/E Ratio,Grupo Televisa SAB ADR,N/A
 20200817,TV,Beta,Grupo Televisa SAB ADR,1.21
 20200817,TV,1-Year Change,Grupo Televisa SAB ADR,-0.1152
-20200817,TV,Shares Outstanding,Grupo Televisa SAB ADR,3.30E+11
+20200817,TV,Shares Outstanding,Grupo Televisa SAB ADR,3.29941E+11
 20200817,TV,Next Earnings Date,Grupo Televisa SAB ADR,Oct 22 2020
 20200817,HRB,industry,H&R Block Inc,Personal Services
 20200817,HRB,sector,H&R Block Inc,Services

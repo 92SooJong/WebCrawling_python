@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
 
-today = datetime.today().strftime('%Y-%m-%d')
+today = datetime.today().strftime('%Y%m%d')
+
 
 
 stock_url = {}
@@ -29,7 +30,6 @@ with open("all_usa_stock_list.html", encoding="UTF8") as fp:
 
 print(stock_url)
 for k, v in stock_url.items():
-
     # Setting User-Agent for crawling
     headers ={'accept':"text/html",
               'User-Agent' :'Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)'
@@ -98,11 +98,11 @@ for k, v in stock_url.items():
     print(stock_data)
 
     # write csv
-    company_nm_ticker = stock_data[0] + '|' + stock_data[1]
+    company_nm_ticker = today +'\t'+stock_data[1] + '\t' + stock_data[0]
     for i in range(2, len(stock_data)):
         row = ''
         if i % 2 == 0:
-            row += company_nm_ticker + '|' + stock_data[i] + '|' + stock_data[i + 1].replace(',', '') + '\n'
+            row += company_nm_ticker + '\t' + stock_data[i] + '\t' + stock_data[i + 1].replace(',', '') + '\n'
             f.write(row)
     stock_data.clear()
 
