@@ -14,6 +14,18 @@ stock_data = []
 path = today +'_usa_stock_price.csv'
 f = open(path,'w')
 
+header = ['company_name','ticker','market','price','industry','sector','prevclose','daysrange','revenue','open',
+          'wk52range','eps','volume','marketcap','dividend_yield','averagevol_3m',
+          'pe','beta','year1change','shares','nextearningsdate','crawling_YYYYMMDD']
+row=''
+for i in range(0, len(header)):
+    row += header[i] + '\t'
+row += '\n'
+f.write(row)
+
+
+
+
 with open("all_usa_stock_list.html", encoding="UTF8") as fp:
     soup = BeautifulSoup(fp, 'html.parser')
 
@@ -29,7 +41,9 @@ with open("all_usa_stock_list.html", encoding="UTF8") as fp:
             stock_url[a['title']] = a['href']
 
 print(stock_url)
+
 for k, v in stock_url.items():
+
     # Setting User-Agent for crawling
     headers ={'accept':"text/html",
               'User-Agent' :'Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)'
@@ -45,65 +59,63 @@ for k, v in stock_url.items():
 
 
 
-    company_name_with_ticker = soup.findAll('div',class_='instrumentHead')[0].find('h1').text
-    price = soup.findAll('div',class_='left current-data')[0].find('span',id='last_last')
 
-    industry_sector = soup.findAll('div',class_='companyProfileHeader')
-
-    # 섹터가 없는 화면도 있음.
-    if len(industry_sector) >0:
-        industry_sector = industry_sector[0].findAll('div')
-
-        industry = industry_sector[0].find('a').text
-        sector = industry_sector[1].find('a').text
-    else:
-        industry ='none'
-        sector ='none'
-
+    price = soup.findAll('div',class_='left current-data')[0].find('span',id='last_last').text
+    market = soup.findAll('i',class_='btnTextDropDwn arial_12 bold')[0].text
+    company_name_with_ticker = soup.findAll('div', class_='instrumentHead')[0].find('h1').text
     company_name = company_name_with_ticker[:company_name_with_ticker.index('(')-1]
     ticker = company_name_with_ticker[company_name_with_ticker.index('(')+1:company_name_with_ticker.index(')')]
 
+
+
+
+    companyProfile = soup.findAll('div',class_='companyProfileHeader')
+    if len(companyProfile) >0:
+        industry = companyProfile[0].findAll('div')[0].findAll('a')[0].text
+        sector = companyProfile[0].findAll('div')[1].findAll('a')[0].text
+    else:
+        industry ='N/A'
+        sector ='N/A'
+
+
+
+    # 그래프 하단 주가 정보
+    div_tag = soup.findAll('div',class_='clear overviewDataTable overviewDataTableWithTooltip')[0]
+
+    span_tag = div_tag.findAll('span',class_='float_lang_base_2 bold')
+
+
+
+    # company_name
     stock_data.append(company_name)
     # Input ticker
     stock_data.append(ticker)
-
-    #Input industry
-    stock_data.append('industry')
+    # Input Market
+    stock_data.append(market)
+    # Input Price
+    stock_data.append(price)
+    # Input Industry
     stock_data.append(industry)
-
-
     # Input Sector
-    stock_data.append('sector')
     stock_data.append(sector)
 
-    # Input price
-    stock_data.append('price')
-    stock_data.append(price.text)
-
-
-
-    # get All div tag
-    div_tag = soup.findAll('div',class_='clear overviewDataTable overviewDataTableWithTooltip')[0]
-
-    span_tag = div_tag.findAll('span')
-
     # Input all data got above to dict
-    for i,s in enumerate(span_tag):
-        info = s.text
+    for s in span_tag:
+         info = s.text
+         stock_data.append(info)
 
-        stock_data.append(info)
-
-    #sec = int(random.uniform(1,5))
-    #time.sleep(sec)
+    # Input Today
+    stock_data.append(today)
     print(stock_data)
 
     # write csv
-    company_nm_ticker = today +'\t'+stock_data[1] + '\t' + stock_data[0]
-    for i in range(2, len(stock_data)):
-        row = ''
-        if i % 2 == 0:
-            row += company_nm_ticker + '\t' + stock_data[i] + '\t' + stock_data[i + 1].replace(',', '') + '\n'
-            f.write(row)
+    row = ''
+    for i in range(0, len(stock_data)):
+        row += stock_data[i].replace(',','')+'\t'
+
+    row += '\n'
+    f.write(row)
+    print(row)
     stock_data.clear()
 
 f.close()

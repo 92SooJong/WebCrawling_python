@@ -27,7 +27,7 @@ fbq.loadPlugin("cookie");
 instance.optIn("751110881643258", "FirstPartyCookies", true);
 config.set(null, "batching", {"batchWaitTimeMs":501,"maxBatchSize":10});
 config.set(null, "microdata", {"waitTimeMs":500});
-config.set("751110881643258", "prohibitedSources", {"prohibitedSources":[{"domain":"020ce1bbaea11ffaf0e02a389b783ccfdb8380ce66712ab3d1a56e3e5144307c"},{"domain":"f878890f2b083fcefb0baa3cd0782d24c6fd1c974b25094a8adca6a8d8178614"},{"domain":"e253d1b4e3258b0a2b159ae1444b2e8200892e947a1c41ea1a97fe326f5e15ae"},{"domain":"8c8b2478a29968c50f2d08df2b70b471353a6597cdc3eb19b2af4e52c8519bf6"},{"domain":"e29a78047a391ed434f3a504f3ce34f656b3c1a2a11236b4225cb8ef4ed11969"},{"domain":"68a1bb5236da97ef252de8f3d698acda963da3b1d108bc7d7adae2a7cb03e39b"},{"domain":"f6b7b7dcf6e35ac165d73413ff418a800e547694fa4e7cc9c9ef58fee2de24fc"}]});
+config.set("751110881643258", "prohibitedSources", {"prohibitedSources":[{"domain":"7b753da429eae7c523a15132ecf41f71b612a7a7901090294a2c4772d250a192"},{"domain":"ab1ce062f0797c2bfa663fd74dc423531aa59a94aa4d02cfb618173f3ff62dee"},{"domain":"f878890f2b083fcefb0baa3cd0782d24c6fd1c974b25094a8adca6a8d8178614"},{"domain":"020ce1bbaea11ffaf0e02a389b783ccfdb8380ce66712ab3d1a56e3e5144307c"},{"domain":"55e69026d55c4f3ef64c51458d9fe95153213af70ac9b48ee59a13897db0541e"},{"domain":"e29a78047a391ed434f3a504f3ce34f656b3c1a2a11236b4225cb8ef4ed11969"},{"domain":"fc7f359a02abd0b1e691531a6e4af9f416259979d2e2f746140fe93f9af0de63"}]});
 fbq.loadPlugin("prohibitedsources");
 instance.optIn("751110881643258", "ProhibitedSources", true);
 config.set("751110881643258", "unwantedData", {"blacklisted_keys":null,"blacklisted_keys_v2":{"PageView":{"cd":{},"url":{}}}});
